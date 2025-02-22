@@ -47,6 +47,8 @@ def main(
     for dataset, output_path in DATASETS.items():
         logger.info(f"Processing dataset: `{dataset}`")
         # Simulate a processing loop with progress bar
+
+
         for i in tqdm(range(10), total=10):  # For each iteration, display progress
             if i == 0:
                 logger.info("Checking dependency paths...")
@@ -68,6 +70,11 @@ def main(
                 logger.info("Opening dataset in Pandas...")  # Log that the dataset is being loaded into a pandas DataFrame
 
                 df = pd.read_csv(dataset_path)  # Load the dataset into a pandas DataFrame
+
+                if dataset == 'tmdb_5000_movies.csv':
+
+
+
                 logger.info("Success!")  # Log successful loading of the dataset
             elif i == 2:
                 logger.info("Saving the processed dataset...")  # Log that the processed dataset is being saved
