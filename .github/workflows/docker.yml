@@ -20,12 +20,12 @@ jobs:
           password: ${{ secrets.PERSONAL_ACCESS_TOKEN }}  # Use GitHub token here for authentication
           registry: ghcr.io
 
-      - name: Build and push frontend Docker image
+      - name: Build and push movie-recommender Docker image
         run: |
           docker build --label "org.opencontainers.image.source=https://github.com/${{ github.repository }}" \
-                      --label "org.opencontainers.image.description=Frontend container for LLM Spot" \
-                      -t ghcr.io/filipmojto/frontend:latest ./
-          docker push ghcr.io/filipmojto/frontend:latest
+                      --label "org.opencontainers.image.description=movie-recommender container for ML-techniques" \
+                      -t ghcr.io/filipmojto/movie-recommender:latest ./
+          docker push ghcr.io/filipmojto/movie-recommender:latest
 
       # - name: Build and push backend Docker image
       #   run: |
