@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  ml_api:
+    build: .
+    container_name: ml_api_container
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./ML_pipeline/data/processed:/app/ML_pipeline/data/processed
+      - ./ML_pipeline/models:/app/ML_pipeline/models
+      - ./data:/app/data
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
