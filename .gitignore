@@ -1,3 +1,4 @@
 .env
 .venv
 ML_pipeline/data
+CHANGELOG.md
