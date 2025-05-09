@@ -6,9 +6,14 @@ import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 
+def generate_user_profile(movie_df: pd.DataFrame, matrix, starter_movies: List[str], count: int = 10):
+    recommended_movies = recommend_movies(movie_df=movie_df, user_liked_movies=starter_movies, matrix=matrix, count=count)
+    return recommended_movies['title'].tolist()
+
+
 def recommend_movies(movie_df: pd.DataFrame,  user_liked_movies: List[str], matrix, count: int = 10):
     # Randomly select n movies from the entire dataset
-    user_liked_movies = movie_df.sample(n=len(user_liked_movies), random_state=42)['title'].tolist()
+    # user_liked_movies = movie_df.sample(n=len(user_liked_movies), random_state=42)['title'].tolist()
     user_liked_movies = pd.Series(user_liked_movies)
 
     # Get all movie vectors for movies the user liked
@@ -23,7 +28,7 @@ def recommend_movies(movie_df: pd.DataFrame,  user_liked_movies: List[str], matr
     user_similarities = cosine_similarity(user_profile_vector, matrix).flatten()
 
     # Create DataFrame of movies with similarity scores
-    movie_scores = pd.DataFrame({'title': movie_df['title'], 'similarity': user_similarities})
+    movie_scores = pd.DataFrame({'title': movie_df['title'], 'genres': movie_df['genres'], 'similarity': user_similarities})
 
     # Filter out movies the user has already interacted with
     movie_scores = movie_scores[~movie_scores['title'].isin(user_liked_movies)]
@@ -72,6 +77,7 @@ def test_accuracy(movie_df: pd.DataFrame, recommended_movies: pd.DataFrame, user
         "f1_score": f"{f1_genre:.4f}",
         "text_similarity_score": f"{avg_similarity:.4f}"
     }    
+
 
 def get_movie_genres(movie_df: pd.DataFrame, movie_titles):
     genres = movie_df[movie_df['title'].isin(movie_titles)]['genres']
