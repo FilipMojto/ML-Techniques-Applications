@@ -3,3 +3,4 @@
 .idea
 ML_pipeline/data
 CHANGELOG.md
+docker-compose.yml

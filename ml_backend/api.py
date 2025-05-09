@@ -9,14 +9,22 @@ import os, sys
 import logging
 from fastapi import FastAPI, HTTPException, Depends, Query
 from sqlalchemy.orm import Session
-from database import SessionLocal, engine, Base
+
 from models import User, Movie, UserMovie
-from schemas import LikeRequest, MovieCreate, MovieRead, MovieUpdate, RecommendRequest, MovieRecommendation, RecommendationResponse, Profile, UserProfile
+from schemas import LikeRequest, MovieCreate, MovieRead, MovieUpdate, RecommendRequest, MovieRecommendation, RecommendationResponse, UserCreate, UserRead
 from ML_pipeline.testing import recommend_movies, test_accuracy
 from ML_pipeline.isa_project_1.config import MODELS_DIR
-import pickle
-import pandas as pd
-from scipy.sparse import spmatrix
+# Seeding the database
+from database.config import SessionLocal, engine, Base, was_just_created
+from database.seeders import seed_with_dataframe
+
+# Basic config — you can tweak format/level/handlers as you like
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S"
+)
+logger = logging.getLogger(__name__)  # module-level logger
 
 PROJECT_ROOT = Path(os.getcwd()).parent
 
@@ -41,10 +49,9 @@ with open(MODELS_DIR / "count_vectorizer.pkl", "rb") as f:
 
 movie_df: pd.DataFrame = pd.read_pickle(MODELS_DIR / "movie_df.pkl")
 
+
 # Initialize DB
 Base.metadata.create_all(bind=engine)
-
-app = FastAPI()
 
 # Dependency
 def get_db():
@@ -54,17 +61,30 @@ def get_db():
     finally:
         db.close()
 
-# Load models
-with open(MODELS_DIR / "tfidf_matrix.pkl", "rb") as f:
-    tfidf_matrix: spmatrix = pickle.load(f)
-with open(MODELS_DIR / "count_matrix.pkl", "rb") as f:
-    count_matrix: spmatrix = pickle.load(f)
-movie_df: pd.DataFrame = pd.read_pickle(MODELS_DIR / "movie_df.pkl")
 
-@app.post("/user/", response_model=UserProfile)
-async def create_user(user: UserProfile, db: Session = Depends(get_db)):
+
+if was_just_created:
+    logger.info("Database was just created. Seeding with movie data...")
+    # Seed the database with movie data
+    seed_with_dataframe(path=MODELS_DIR / "movie_df.pkl")
+    logger.info("Database seeded successfully.")
+
+# Load models
+# with open(MODELS_DIR / "tfidf_matrix.pkl", "rb") as f:
+#     tfidf_matrix: spmatrix = pickle.load(f)
+# with open(MODELS_DIR / "count_matrix.pkl", "rb") as f:
+#     count_matrix: spmatrix = pickle.load(f)
+# movie_df: pd.DataFrame = pd.read_pickle(MODELS_DIR / "movie_df.pkl")
+
+app = FastAPI()
+
+
+@app.post("/user/", response_model=UserRead)
+# async def create_movie(movie_in: MovieCreate, db: Session = Depends(get_db)):
+async def create_user(user: UserCreate, db: Session = Depends(get_db)):
     db_user = User(username=user.username)
     db.add(db_user)
+
     try:
         db.commit()
         db.refresh(db_user)
@@ -72,13 +92,13 @@ async def create_user(user: UserProfile, db: Session = Depends(get_db)):
         db.rollback()
         raise HTTPException(status_code=409, detail="User already exists")
     # add liked movies
-    for title in user.liked_movies:
-        um = UserMovie(user_id=db_user.user_id, movie_title=title)
-        db.add(um)
-    db.commit()
-    return user
+    # for title in user.liked_movies:
+    #     um = UserMovie(user_id=db_user.user_id, movie_title=title)
+    #     db.add(um)
+    # db.commit()
+    return db_user
 
-@app.get("/user/all", response_model=List[UserProfile])
+@app.get("/user/all", response_model=List[UserRead])
 async def get_all_users(db: Session = Depends(get_db)):
     """Get all users and their movie lists."""
 
@@ -91,20 +111,17 @@ async def get_all_users(db: Session = Depends(get_db)):
         username = user.username
 
         db_user_movies = db.query(UserMovie).filter(UserMovie.user_id == user_id).all()
-
-
-        user_profiles.append(UserProfile(username=username, liked_movies=[um.movie_title for um in db_user_movies]))
-
+        user_profiles.append(UserRead(username=username, liked_movies=[um.movie_title for um in db_user_movies], user_id=user_id))
 
     return user_profiles
 
-@app.get("/user/{username}", response_model=UserProfile)
+@app.get("/user/{username}", response_model=UserRead)
 def get_user(username: str, db: Session = Depends(get_db)):
     db_user = db.query(User).filter(User.username == username).first()
     if not db_user:
         raise HTTPException(404, "User not found")
     liked = [um.movie_title for um in db_user.liked]
-    return UserProfile(username=username, liked_movies=liked)
+    return UserRead(username=username, liked_movies=liked, user_id=db_user.user_id)
 
 @app.post("/recommend", response_model=RecommendationResponse)
 def recommend(request: RecommendRequest, db: Session = Depends(get_db)):
