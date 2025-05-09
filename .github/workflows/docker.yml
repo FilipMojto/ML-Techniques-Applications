@@ -25,7 +25,8 @@ jobs:
           docker build --file ml_backend/Dockerfile \
                       --label "org.opencontainers.image.source=https://github.com/${{ github.repository }}" \
                       --label "org.opencontainers.image.description=movie-recommender container for ML-techniques" \
-                      -t ghcr.io/filipmojto/movie-recommender:latest ./
+                      -t ghcr.io/filipmojto/movie-recommender:latest \
+                      ml_backend
           docker push ghcr.io/filipmojto/movie-recommender:latest
 
       # - name: Build and push backend Docker image
