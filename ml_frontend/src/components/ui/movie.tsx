@@ -1,8 +1,8 @@
 "use client";
 
 import { Button } from "./button";
-import { Card, CardContent, CardFooter, CardTitle } from "./card";
 import { Heart } from "lucide-react";
+import { toast } from "sonner";
 
 export type MovieProps = {
   title: string;
@@ -37,10 +37,11 @@ export default function Movie({title}: MovieProps) {
         <div className={`flex flex-row h-60 w-44 items-center justify-center rounded-sm relative
         hover:scale-105 transition-transform duration-200`}
         style={{backgroundColor: randomColor(title)}}>
-          <Button size="icon" className="w-8 h-8 absolute top-2 right-2">
-            <Heart strokeWidth={3}/>
+          <Button variant="ghost" size="icon" className="w-8 h-8 absolute top-2 right-2 hover:bg-accent/50"
+          onClick={() =>{toast.success('Movie added to liked movies')}}>
+            <Heart strokeWidth={3} className="fill-destructive text-destructive"/>
           </Button>
-          <span className="text-white text-8xl font-medium">{coverLetter(title)}</span>
+          <span className="text-8xl font-medium text-white">{coverLetter(title)}</span>
         </div>
         <span className="w-full line-clamp-3 text-sm font-medium text-center my-2">
           {title.trim()}
