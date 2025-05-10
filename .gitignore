@@ -2,3 +2,4 @@
 CHANGELOG.md
 .idea/
 ml_backend/docker-compose.yml
+ML_pipeline/
