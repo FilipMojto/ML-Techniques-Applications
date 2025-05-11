@@ -5,8 +5,12 @@ services:
     ports:
       - "5000:5000"
     volumes:
+      # - ./ml_backend/ML_pipeline/models:/app/ML_pipeline/models
+      # - ./ml_backend/data:/app/data
+      # volumes:
+      - ./ml_backend/ML_pipeline/data/processed:/app/ML_pipeline/data/processed
       - ./ml_backend/ML_pipeline/models:/app/ML_pipeline/models
-      - ./ml_backend/data:/app/data
+      - ./data:/app/ml_backend/data
     environment:
       - PYTHONUNBUFFERED=1
     restart: unless-stopped

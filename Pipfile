@@ -4,20 +4,14 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-fastapi = "*"
-uvicorn = "*"
 pandas = "*"
+nltk = "*"
 scikit-learn = "*"
-scipy = "*"
-numpy = "*"
 dotenv = "*"
 loguru = "*"
-exceptiongroup = "*"
-mkdocs = "*"
-sqlalchemy = "*"
-requests = "*"
 
 [dev-packages]
+ipykernel = "*"
 
 [requires]
 python_version = "3.12"

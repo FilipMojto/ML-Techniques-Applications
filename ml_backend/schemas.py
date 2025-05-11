@@ -45,9 +45,15 @@ class UserRead(UserCreate):
 class MovieCreate(BaseModel):
     title: str
 
-class MovieRead(MovieCreate):
+# class MovieRead(MovieCreate):
+#     movie_id: int
+#     # title: str
+
+#     class Config:
+#         orm_mode = True
+class MovieRead(BaseModel):
     movie_id: int
-    # title: str
+    title:     str
 
     class Config:
         orm_mode = True

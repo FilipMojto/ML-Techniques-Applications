@@ -215,6 +215,15 @@ def like_movie(request: LikeRequest, db: Session = Depends(get_db)):
     db.commit()
     return {"message": f"{user.username} liked '{movie.title}'"}
 
+@app.get("/users/{username}/liked-movies", response_model=List[MovieRead])
+def get_liked_movies(username: str, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.username == username).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    liked_movies = db.query(Movie).join(UserMovie).filter(UserMovie.user_id == user.user_id).all()
+    return liked_movies
+
 @app.post("/movies/dislike")
 def dislike_movie(request: LikeRequest, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.username == request.username).first()

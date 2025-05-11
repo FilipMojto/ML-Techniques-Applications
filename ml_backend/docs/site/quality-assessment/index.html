@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="FiMo_IT">
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Quality Assessment - isa-project-2</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../css/brands.min.css" rel="stylesheet">
+        <link href="../css/solid.min.css" rel="stylesheet">
+        <link href="../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">isa-project-2</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href=".." class="nav-link">isa-project-1 documentation</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../project-background/" class="nav-link">Project background</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="./" class="nav-link active" aria-current="page">Quality Assessment</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../risk-assessment/" class="nav-link">Risk assessment</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../project-background/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../risk-assessment/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#quality-assessment" class="nav-link">Quality Assessment</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#performance-metrics" class="nav-link">Performance metrics</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#robustness-reliability" class="nav-link">Robustness &amp; Reliability</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#scalability" class="nav-link">Scalability</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="quality-assessment">Quality Assessment</h1>
+<h2 id="performance-metrics">Performance metrics</h2>
+<p>Model's accuracy is measured via following metrics:</p>
+<p>1) <strong>Precision</strong>
+- Is lower, if there have been movies recommended which user has not interacted with.
+2) <strong>Recall</strong>
+- Is lower, if there have been movies that user has interacted with but have not been recommended by the model.
+3) <strong>f1-score</strong>
+- Harmonic mean between first two metrics.</p>
+<blockquote>
+<p>The value of each metrics is dependent on the number of movies in user profile and on the number of recommended movies. This is more discussed in the Scalability section.</p>
+</blockquote>
+<h2 id="robustness-reliability">Robustness &amp; Reliability</h2>
+<p>There are several edge-cases possible in our system. For instance when user has only interacted with one movie but wants to recommend 100 movies or more. This usually results in perfect Recall (the movie is usually recommended) but very low Precision (many new movies recommended). </p>
+<p>In the opposite case, where user has a wide movie profile but wants only a single movie to be recommended there is a low probability of recommending new movie.</p>
+<p>Computing the Cosine Similarity on the entire dataset for every request could be slow if the dataset is large.</p>
+<h2 id="scalability">Scalability</h2>
+<p>We mentioned that the values of the metrics <strong>vary depending on the context</strong>. Consider the following example:</p>
+<pre><code>User has interacted with 100 various movies. User asks system to recommend them 10 movies based on their personal profile.
+</code></pre>
+<p>The results may look like this:</p>
+<pre><code class="language-json">{
+  &quot;precision&quot;: 0.7,
+  &quot;recall&quot;: 0.07,
+  &quot;f1_score&quot;: 0.1272727272727273,
+  &quot;recommendations&quot;: [
+    {
+      &quot;title&quot;: &quot;Bandits&quot;,
+      &quot;similarity&quot;: 0.21750030726751693
+    },
+    {
+      &quot;title&quot;: &quot;The Dead Girl&quot;,
+      &quot;similarity&quot;: 0.21382390177095864
+    },
+    ...
+  ]
+}
+</code></pre>
+<p>Precision is quite high because model mainly recommends movies user has interacted with. This is because we recommend only the small portion (10) out of all movies in profile. Suppose however, user then asks model to recommend them 80 movies:</p>
+<pre><code class="language-json">
+{
+  &quot;precision&quot;: 0.475,
+  &quot;recall&quot;: 0.38,
+  &quot;f1_score&quot;: 0.4222222222222222,
+  &quot;recommendations&quot;: [
+    {
+      &quot;title&quot;: &quot;Bandits&quot;,
+      &quot;similarity&quot;: 0.21750030726751693
+    },
+    {
+      &quot;title&quot;: &quot;The Dead Girl&quot;,
+      &quot;similarity&quot;: 0.21382390177095864
+    },
+
+    ...
+  ]
+}
+
+</code></pre>
+<p>We can observe from the results that Precision has dropped but the Recall has increased. Now the situation is different because with increased number of recommended movies model tends more to recommend movies user has interacted with but also the number of new (uninteracted) movies is higher.</p>
+<p>From the perspective of a <strong>content-based recommendation system</strong> this is quite natural and desirable phenomenom.</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js"></script>
+        <script src="../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

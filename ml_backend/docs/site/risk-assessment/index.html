@@ -8,7 +8,7 @@
         <meta name="author" content="FiMo_IT">
         
         <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>Lala - isa-project-1</title>
+        <title>Risk assessment - isa-project-2</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
         <link href="../css/fontawesome.min.css" rel="stylesheet">
         <link href="../css/brands.min.css" rel="stylesheet">
@@ -24,10 +24,29 @@
     <body>
         <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-                <a class="navbar-brand" href="..">isa-project-1</a>
+                <a class="navbar-brand" href="..">isa-project-2</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
                 <!-- Expanded navigation -->
                 <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href=".." class="nav-link">isa-project-1 documentation</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../project-background/" class="nav-link">Project background</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../quality-assessment/" class="nav-link">Quality Assessment</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="./" class="nav-link active" aria-current="page">Risk assessment</a>
+                            </li>
+                        </ul>
 
                     <ul class="nav navbar-nav ms-md-auto">
                         <li class="nav-item">
@@ -35,6 +54,16 @@
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../quality-assessment/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" class="nav-link disabled">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
                     </ul>
                 </div>
             </div>
@@ -52,12 +81,30 @@
     
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#risk-assessment" class="nav-link">Risk assessment</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#security-risks" class="nav-link">Security risks</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
         </ul>
     </div>
 </div></div>
                     <div class="col-md-9" role="main">
 
-</div>
+<h1 id="risk-assessment">Risk assessment</h1>
+<h2 id="security-risks">Security risks</h2>
+<p>There are several risks using our API:</p>
+<ul>
+<li>No real authorization for user accounts</li>
+</ul>
+<h3 id="operational-risks">Operational risks</h3>
+<ul>
+<li>Multiple concurrent requests may cause database locking issues</li>
+</ul></div>
             </div>
         </div>
 
