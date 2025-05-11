@@ -20,7 +20,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Expose necessary volumes for models and data
-VOLUME ["/app/ML_pipeline/data/processed", "/app/ML_pipeline/models", "/app/data"]
+VOLUME ["/app/ML_pipeline/models", "/app/data"]
 
 # Expose API port
 EXPOSE 5000

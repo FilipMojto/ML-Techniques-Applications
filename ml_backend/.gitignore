@@ -2,7 +2,7 @@
 .venv
 .idea
 # Ignore everything in ML_pipeline/data
-# ML_pipeline/data/*
+ML_pipeline/data/*
 
 # # Un-ignore the processed folder and its contents
 # !ML_pipeline/data/processed/
