@@ -53,12 +53,15 @@ export default function Home() {
       <ScrollArea className="w-full max-w-full h-full max-h-full">
         <div className="flex flex-col justify-start items-center w-full">
           <div className="max-w-11/12 w-5xl flex flex-col">
-            <h2 className="text-2xl font-medium my-4">Recommendations:</h2>
-            <div className="py-2 grid grid-cols-5 min-w-full w-fit items-center justify-center shrink-0">
-              {recommendations.map((recommendation, index) => (
-                              <MovieCard key={index} movie={{title: recommendation.title, movie_id: 0}} disable_like={true}/>
-                            ))}
-            </div>
+            {recommendations.length > 0 &&
+              <>
+                <h2 className="text-2xl font-medium my-4">Recommendations:</h2>
+                <div className="py-2 grid grid-cols-5 min-w-full w-fit items-center justify-center shrink-0">
+                  {recommendations.map((recommendation, index) => (
+                    <MovieCard key={index} movie={{ title: recommendation.title, movie_id: 0 }} disable_like={true} />
+                  ))}
+                </div>
+              </>}
             <h2 className="text-2xl font-medium my-4">Movies:</h2>
             <div className="py-2 grid grid-cols-5 w-full items-center justify-center">
               {movies.map((movie) => (

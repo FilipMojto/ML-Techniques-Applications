@@ -26,6 +26,29 @@ export default function Profile() {
     return fallback.toUpperCase();
   }
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const username = getCookie("user")
+        const res = await fetch('/api/user', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({username}),
+        });
+        if (!res.ok) {
+          router.push("/users");
+          return;
+        };
+        const data: User = await res.json();
+        setUser(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
   const handleLogout = () => {
     toast.success('Logout successful');
     deleteCookie("user");
