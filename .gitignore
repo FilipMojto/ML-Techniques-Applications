@@ -3,3 +3,4 @@ CHANGELOG.md
 .idea/
 ml_backend/docker-compose.yml
 ML_pipeline/
+ml_backend/docs/docs/risk-assessment.md
