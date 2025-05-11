@@ -1,7 +1,30 @@
+'use client'
+
 import { ScrollArea } from "@/components/ui/scroll-area";
-import User from "@/components/ui/user";
+import UserCard from "@/components/ui/user";
+import { useEffect, useState } from 'react';
+import { User } from '@/components/user-provider'
+import { useUser } from "@/components/user-provider";
 
 export default function Users() {
+  const [users, setUsers] = useState<User[]>([]);
+  const { user } = useUser();
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const res = await fetch('/api/users');
+        if (!res.ok) throw new Error('Failed to fetch users');
+        const data: User[] = await res.json();
+        setUsers(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
   return (
     <main className="flex flex-col items-center justify-start w-full flex-1 overflow-hidden">
       <ScrollArea className="w-full max-w-full h-full max-h-full">
@@ -9,16 +32,11 @@ export default function Users() {
           <div className="max-w-11/12 w-5xl flex flex-col">
             <h2 className="text-2xl font-medium my-4">Users:</h2>
             <div className="grid grid-cols-1 gap-4 px-4">
-              <User name="John Doe" />
-              <User name="Johnyboy" />
-              <User name="John Doe" />
-              <User name="John Doe" />
-              <User name="John Doe" />
-              <User name="John Doe" />
-              <User name="John Doe" />
-              <User name="John Doe" />
-              <User name="John Doe" />
-              <User name="John Doe" />
+              {users
+              .filter(u => u.user_id !== user?.user_id)
+              .map((user) => (
+                <UserCard key={user.user_id} name={user.username} />
+              ))}
             </div>
           </div>
         </div>

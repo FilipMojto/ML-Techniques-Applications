@@ -11,6 +11,10 @@ class MovieRecommendation(BaseModel):
     title: str
     similarity: float
 
+class LikedMovie(BaseModel):
+    title: str
+    movie_id: int
+
 class RecommendationResponse(BaseModel):
     precision: float
     recall: float
@@ -32,7 +36,7 @@ class UserCreate(BaseModel):
 # This is useful when you want to return SQLAlchemy models directly from your FastAPI endpoints.
 class UserRead(UserCreate):
     user_id: int
-    liked_movies: List[str] = Field(default_factory=list)
+    liked_movies: List[LikedMovie] = Field(default_factory=list)
 
 
     class Config:

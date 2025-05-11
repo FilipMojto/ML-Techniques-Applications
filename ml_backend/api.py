@@ -11,7 +11,7 @@ from fastapi import FastAPI, HTTPException, Depends, Query
 from sqlalchemy.orm import Session
 
 from models import User, Movie, UserMovie
-from schemas import LikeRequest, MovieCreate, MovieRead, MovieUpdate, RecommendRequest, MovieRecommendation, RecommendationResponse, UserCreate, UserRead
+from schemas import LikeRequest, MovieCreate, MovieRead, MovieUpdate, LikedMovie, RecommendRequest, MovieRecommendation, RecommendationResponse, UserCreate, UserRead
 from ML_pipeline.testing import recommend_movies, test_accuracy
 from ML_pipeline.isa_project_1.config import MODELS_DIR
 # Seeding the database
@@ -111,7 +111,7 @@ async def get_all_users(db: Session = Depends(get_db)):
         username = user.username
 
         db_user_movies = db.query(UserMovie).filter(UserMovie.user_id == user_id).all()
-        user_profiles.append(UserRead(username=username, liked_movies=[um.movie_title for um in db_user_movies], user_id=user_id))
+        user_profiles.append(UserRead(username=username, liked_movies=[LikedMovie(movie_id=um.movie_id, title=um.movie_title) for um in db_user_movies], user_id=user_id))
 
     return user_profiles
 
@@ -120,7 +120,7 @@ def get_user(username: str, db: Session = Depends(get_db)):
     db_user = db.query(User).filter(User.username == username).first()
     if not db_user:
         raise HTTPException(404, "User not found")
-    liked = [um.movie_title for um in db_user.liked]
+    liked = [LikedMovie(movie_id=um.movie_id, title=um.movie_title) for um in db_user.liked]
     return UserRead(username=username, liked_movies=liked, user_id=db_user.user_id)
 
 @app.post("/recommend", response_model=RecommendationResponse)

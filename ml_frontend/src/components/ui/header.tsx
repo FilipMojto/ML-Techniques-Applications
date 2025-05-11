@@ -33,7 +33,7 @@ export default function Header() {
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href="/profiles" legacyBehavior passHref>
+              <Link href={`/profile`} legacyBehavior passHref>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                   Profile
                 </NavigationMenuLink>

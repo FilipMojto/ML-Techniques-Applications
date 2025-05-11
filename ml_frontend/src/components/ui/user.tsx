@@ -3,12 +3,14 @@
 import { Avatar, AvatarFallback } from "./avatar";
 import { Button } from "./button";
 import { Card } from "./card";
+import { useRouter } from 'next/navigation';
 
 export type UserProps = {
   name: string;
 }
 
-export default function User({ name }: UserProps) {
+export default function UserCard({ name }: UserProps) {
+  const router = useRouter();
 
   const fallbackChars = (name: string) => {
     let words = name.split(" ");
@@ -33,7 +35,7 @@ export default function User({ name }: UserProps) {
           {name}
         </p>
       </div>
-      <Button>
+      <Button onClick={() => {router.push(`/users/${name}`);}}>
         Open Profile
       </Button>
     </Card>
