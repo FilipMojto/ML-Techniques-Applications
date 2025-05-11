@@ -62,7 +62,7 @@ export default function MovieCard({ movie, disable_like = false }: MovieProps) {
               onClick={handleDisike}>
               <Heart strokeWidth={3} className="fill-destructive text-destructive" />
             </Button>}
-          <span className="text-8xl font-medium text-white">{coverLetter(movie.title)}</span>
+          <span className="text-8xl font-medium text-white select-none">{coverLetter(movie.title)}</span>
         </div>
         <span className="w-full line-clamp-3 text-sm font-medium text-center my-2">
           {movie.title.trim()}
