@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+  const baseUrl = process.env.BACKEND_URL ??  "http://localhost:5000";
 
   try {
     const res = await fetch(`${baseUrl}/movies/like`, {

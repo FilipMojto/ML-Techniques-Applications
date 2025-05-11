@@ -1,0 +1,21 @@
+services:
+  ml_api:
+    build: ./ml_backend
+    container_name: ml_api_container
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./ml_backend/ML_pipeline/models:/app/ML_pipeline/models
+      - ./ml_backend/data:/app/data
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+
+  ml_frontend:
+    build: ./ml_frontend
+    container_name: ml_frontend_container
+    ports:
+      - "3000:3000"
+    environment:
+      - BACKEND_URL=http://ml_api:5000
+    restart: unless-stopped

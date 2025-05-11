@@ -4,7 +4,6 @@ __pycache__
 .env
 .venv
 ML_pipeline/data
-ML_pipeline/models
 ML_pipeline/docs
 ML_pipeline/notebooks
 ML_pipeline/references

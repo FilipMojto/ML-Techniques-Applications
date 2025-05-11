@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+    const baseUrl = process.env.BACKEND_URL ??  "http://localhost:5000";
 
     const res = await fetch(`${baseUrl}/user/all`);
 

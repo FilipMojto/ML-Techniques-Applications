@@ -13,7 +13,7 @@ export default function UserCard({ name }: UserProps) {
   const router = useRouter();
 
   const fallbackChars = (name: string) => {
-    let words = name.split(" ");
+    const words = name.split(" ");
     let fallback = "";
 
     words.forEach((word) => {

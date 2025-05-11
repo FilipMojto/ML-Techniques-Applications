@@ -47,7 +47,7 @@ export default function MovieCard({ movie, disable_like = false }: MovieProps) {
   }
 
   return (
-    <div className="flex flex-row justify-center w-full">
+    <div className="flex flex-row justify-center col-span-1">
       <div className="flex flex-col h-80 w-44 justify-start items-center">
         <div className={`flex flex-row h-60 w-44 items-center justify-center rounded-sm relative
         hover:scale-105 transition-transform duration-200`}

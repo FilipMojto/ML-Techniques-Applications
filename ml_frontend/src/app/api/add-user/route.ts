@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
-  let body = await req.json();
+  const body = await req.json();
 
-  const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+  const baseUrl = process.env.BACKEND_URL ??  "http://localhost:5000";
 
   try {
     const userRes = await fetch(`${baseUrl}/user`, {
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
         'Content-Type': 'application/json'
       },
     });
-  } catch (err) {
+  } catch {
     return new NextResponse('Internal Server Error', { status: 500 });
   }
 }

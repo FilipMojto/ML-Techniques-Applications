@@ -7,41 +7,36 @@ import {
   NavigationMenuLink,
   navigationMenuTriggerStyle,
 } from "./navigation-menu";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Separator } from "./separator";
 import ThemeToggle from "./theme-toggle";
 
 export default function Header() {
+  const router = useRouter()
   return (
     <div className="flex flex-col items-center justify-center">
       <div className="flex flex-row justify-between items-center w-full">
-        <div className="w-9 ml-2"/>
+        <div className="w-9 ml-2" />
         <NavigationMenu className="py-2">
           <NavigationMenuList>
-            <NavigationMenuItem>
-              <Link href="/" legacyBehavior passHref>
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  Movies
-                </NavigationMenuLink>
-              </Link>
+            <NavigationMenuItem onClick={()=>{router.push("/")}}>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                Movies
+              </NavigationMenuLink>
             </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Link href="/users" legacyBehavior passHref>
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  Users
-                </NavigationMenuLink>
-              </Link>
+            <NavigationMenuItem onClick={()=>{router.push("/users")}}>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                Users
+              </NavigationMenuLink>
             </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Link href={`/profile`} legacyBehavior passHref>
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  Profile
-                </NavigationMenuLink>
-              </Link>
+            <NavigationMenuItem onClick={()=>{router.push("/profile")}}>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                Profile
+              </NavigationMenuLink>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
-        <ThemeToggle/>
+        <ThemeToggle />
       </div>
       <Separator />
     </div>

@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
@@ -14,7 +14,7 @@ import { User, useUser } from '@/components/user-provider'
 export default function LogIn() {
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
-  const {setUser} = useUser();
+  const { setUser } = useUser();
 
   const handleLogin = async () => {
     const username = inputRef.current?.value.trim();
@@ -29,12 +29,15 @@ export default function LogIn() {
 
     if (res.ok) {
       const data: User = await res.json();
-        setUser(data);
+      setUser(data);
       toast.success('Login successful');
-      setCookie("user", username);
-      setTimeout(() => {
+      await setCookie("user", username);
+      router.push('/');
+      setTimeout(()=>{
+        router.refresh();
         router.push('/');
       }, 500);
+
     } else if (res.status === 404) {
       toast.error('Incorrect username');
     } else {
@@ -55,12 +58,15 @@ export default function LogIn() {
 
     if (res.ok) {
       const data: User = await res.json();
-        setUser(data);
+      setUser(data);
       toast.success('Register successful');
-      setCookie("user", username);
-      setTimeout(() => {
+      await setCookie("user", username);
+      router.push('/');
+      setTimeout(()=>{
+        router.refresh();
         router.push('/');
       }, 500);
+
     } else if (res.status === 409) {
       toast.error('Username already in use');
     } else {
@@ -76,14 +82,14 @@ export default function LogIn() {
         </CardHeader>
         <CardContent>
           <Label className="py-2">Username</Label>
-          <Input ref={inputRef} placeholder="Your Username"/>
+          <Input ref={inputRef} placeholder="Your Username" />
         </CardContent>
         <div className="flex flex-col px-6 py-3">
           <Button onClick={handleLogin} className="w-full">Log In</Button>
           <div className="flex flex-row items-center py-6 justify-center">
-            <Separator className="flex flex-1/4" />
-            <span className="flex flex-1/2 text-sm justify-center">Or Register</span>
-            <Separator className="flex flex-1/4" />
+            <Separator className="flex flex-1/3" />
+            <span className="flex flex-1/3 text-sm justify-center">Or</span>
+            <Separator className="flex flex-1/3" />
           </div>
           <Button onClick={handleRegister} className="w-full">Register</Button>
         </div>

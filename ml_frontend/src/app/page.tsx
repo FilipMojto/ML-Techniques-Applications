@@ -2,12 +2,11 @@
 
 import { Button } from "@/components/ui/button";
 import MovieCard from "@/components/ui/movie-card";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { LoaderCircle, RefreshCw } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useMovies } from '@/components/movie-provider';
 import { getCookie } from 'cookies-next/client';
-import { Movie } from "@/components/movie-provider";
+import { useUser } from "@/components/user-provider";
 
 export type Recommendation = { title: string; similarity: number };
 
@@ -16,6 +15,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
   const { movies, fetchMovies } = useMovies();
+  const { user } = useUser();
   const username = getCookie("user");
 
   const fetchRecommendations = async () => {
@@ -40,7 +40,11 @@ export default function Home() {
       fetchMovies(0, 20);
     }
     fetchRecommendations();
-  }, []);
+  }, [fetchMovies, movies.length]);
+
+  useEffect(() => {
+    fetchRecommendations();
+  }, [user?.liked_movies]);
 
   const loadMore = async () => {
     setLoading(true);
@@ -49,21 +53,20 @@ export default function Home() {
   }
 
   return (
-    <main className="flex flex-col items-center justify-start w-full flex-1 overflow-hidden">
-      <ScrollArea className="w-full max-w-full h-full max-h-full">
-        <div className="flex flex-col justify-start items-center w-full">
-          <div className="max-w-11/12 w-5xl flex flex-col">
+    <main className="flex flex-col items-center justify-start w-full max-w-full flex-1 overflow-hidden">
+        <div className="flex flex-col justify-start items-center w-full max-w-full overflow-y-auto">
+          <div className="max-w-11/12 w-5xl flex min-w-0 flex-col flex-shrink">
             {recommendations.length > 0 &&
               <>
                 <h2 className="text-2xl font-medium my-4">Recommendations:</h2>
-                <div className="py-2 grid grid-cols-5 min-w-full w-fit items-center justify-center shrink-0">
+                <div className="py-2 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 min-w-full w-fit items-center justify-center shrink-0">
                   {recommendations.map((recommendation, index) => (
                     <MovieCard key={index} movie={{ title: recommendation.title, movie_id: 0 }} disable_like={true} />
                   ))}
                 </div>
               </>}
             <h2 className="text-2xl font-medium my-4">Movies:</h2>
-            <div className="py-2 grid grid-cols-5 w-full items-center justify-center">
+            <div className="py-2 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 w-full items-center justify-center">
               {movies.map((movie) => (
                 <MovieCard key={movie.movie_id} movie={movie} />
               ))}
@@ -77,7 +80,6 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </ScrollArea>
     </main>
   );
 }
