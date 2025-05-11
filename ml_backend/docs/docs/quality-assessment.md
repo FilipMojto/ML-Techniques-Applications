@@ -19,7 +19,7 @@ Model's accuracy is measured via following metrics:
 
 There are several edge-cases possible in our system. For instance when user has only interacted with one movie but wants to recommend 100 movies or more. This usually results in perfect Recall (the movie is usually recommended) but very low Precision (many new movies recommended). 
 
-In the opposite case, where user has a wide movie profile but want only single movie to be recommended there is low probability of recommending new movie.
+In the opposite case, where user has a wide movie profile but wants only a single movie to be recommended there is a low probability of recommending new movie.
 
 Computing the Cosine Similarity on the entire dataset for every request could be slow if the dataset is large.
 

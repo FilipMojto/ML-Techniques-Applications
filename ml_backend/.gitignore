@@ -2,5 +2,8 @@
 .venv
 .idea
 ML_pipeline/data
+# But do NOT ignore preprocessed/
+!ML_pipeline/data/processed/
+
 CHANGELOG.md
 docker-compose.yml
