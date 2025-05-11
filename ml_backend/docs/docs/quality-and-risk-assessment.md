@@ -68,6 +68,14 @@ In this case, **recall improves** because more of the user’s preferred genres 
 
 This tradeoff between **precision** and **recall** is natural in content-based recommendation systems and often desirable when trying to balance relevance and novelty.
 
+### Usability
+
+The app provides a user-friendly GUI implemented via a responsive website. Here user can log in or register, like or unlike movies and wait for system to dynamically recommend new movies.
+
+### Data Persistence
+
+The data about users, movies and their connection via likes are automatically stored in the local Sqlite database. The communication between database and the application logic is provided via SqlAlchemy ORM which offers highly scalable and friendly interface. This ORM also supports other databases like PostgreSQL and others.
+
 ## Risk Assessment
 
 ### Operational & Performance Risks
@@ -77,7 +85,7 @@ This tradeoff between **precision** and **recall** is natural in content-based r
 
 ### Cold-start problem
 
-- Brand-new users with no movie history. It is wise to first like a satisfactory high amount of movies before asking for first recommendation.
+- Brand-new users with no movie history. It is wise to first like a sufficiently high amount of movies before asking for the first recommendation.
 
 ### Bias
 
