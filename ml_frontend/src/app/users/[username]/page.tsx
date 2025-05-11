@@ -44,7 +44,7 @@ export default function Profile() {
     };
 
     fetchUser();
-  }, [router, username]);
+  }, []);
 
   return (
     <main className="flex flex-col items-center justify-start w-full flex-1 overflow-hidden">

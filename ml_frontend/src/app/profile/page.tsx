@@ -46,7 +46,7 @@ export default function Profile() {
     };
 
     fetchUser();
-  }, [setUser, router]);
+  }, []);
 
   const handleLogout = async () => {
     toast.success('Logout successful');
