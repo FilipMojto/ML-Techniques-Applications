@@ -1,9 +1,12 @@
 .env
 .venv
 .idea
-ML_pipeline/data
-# But do NOT ignore preprocessed/
-!ML_pipeline/data/processed/
+# Ignore everything in ML_pipeline/data
+ML_pipeline/data/*
+
+# Un-ignore the preprocessed folder and its contents
+!ML_pipeline/data/preprocessed/
+!ML_pipeline/data/preprocessed/**
 
 CHANGELOG.md
 docker-compose.yml
