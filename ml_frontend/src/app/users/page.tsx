@@ -27,7 +27,7 @@ export default function Users() {
   return (
     <main className="flex flex-col items-center justify-start w-full flex-1 overflow-hidden">
         <div className="flex flex-col justify-start items-center w-full overflow-y-auto pb-4">
-          <div className="max-w-11/12 w-5xl flex flex-col">
+          <div className="max-w-10/12 xl:max-w-11/12 w-5xl flex min-w-0 flex-col flex-shrink">
             <h2 className="text-2xl font-medium my-4">Users:</h2>
             <div className="grid grid-cols-1 gap-4 px-4">
               {users

@@ -60,7 +60,7 @@ export default function Profile() {
   return (
     <main className="flex flex-col items-center justify-start w-full flex-1 overflow-hidden">
       <div className="flex flex-col justify-start items-center w-full overflow-y-auto">
-        <div className="max-w-11/12 w-5xl flex flex-col">
+        <div className="max-w-10/12 xl:max-w-11/12 w-5xl flex min-w-0 flex-col flex-shrink">
           <h2 className="text-2xl font-medium my-4">User Info:</h2>
           <div className="flex flex-row justify-between items-center px-4 pb-8">
             <div className="flex flex-row items-center">
@@ -78,7 +78,7 @@ export default function Profile() {
             </Button>
           </div>
           <h2 className="text-2xl font-medium my-4">Liked Movies:</h2>
-          <div className="py-2 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 w-full items-center justify-center">
+          <div className="py-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 w-full items-center justify-center">
             {user && user!.liked_movies.map((movie) => (
               <MovieCard key={movie.movie_id} movie={movie} />
             ))}

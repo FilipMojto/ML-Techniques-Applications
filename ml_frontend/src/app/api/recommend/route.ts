@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
   try {
-    const { username, no_of_recommendations = 5 } = await req.json();
+    const { username, no_of_recommendations = 10 } = await req.json();
     const baseUrl = process.env.BACKEND_URL ??  "http://localhost:5000";
 
     const res = await fetch(`${baseUrl}/recommend`, {

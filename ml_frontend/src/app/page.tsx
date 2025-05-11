@@ -7,6 +7,14 @@ import { useState, useEffect } from "react";
 import { useMovies } from '@/components/movie-provider';
 import { getCookie } from 'cookies-next/client';
 import { useUser } from "@/components/user-provider";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
+
 
 export type Recommendation = { title: string; similarity: number };
 
@@ -54,32 +62,42 @@ export default function Home() {
 
   return (
     <main className="flex flex-col items-center justify-start w-full max-w-full flex-1 overflow-hidden">
-        <div className="flex flex-col justify-start items-center w-full max-w-full overflow-y-auto">
-          <div className="max-w-11/12 w-5xl flex min-w-0 flex-col flex-shrink">
-            {recommendations.length > 0 &&
-              <>
-                <h2 className="text-2xl font-medium my-4">Recommendations:</h2>
-                <div className="py-2 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 min-w-full w-fit items-center justify-center shrink-0">
+      <div className="flex flex-col justify-start items-center w-full max-w-full overflow-y-auto">
+        <div className="max-w-10/12 xl:max-w-11/12 w-5xl flex min-w-0 flex-col flex-shrink">
+          {recommendations.length > 0 &&
+            <>
+              <h2 className="text-2xl font-medium my-4">Recommendations:</h2>
+              <Carousel
+                className="mx-2"
+                opts={{
+                  align: "start",
+                }}>
+                <CarouselContent className="py-2">
                   {recommendations.map((recommendation, index) => (
-                    <MovieCard key={index} movie={{ title: recommendation.title, movie_id: 0 }} disable_like={true} />
+                    <CarouselItem key={index} className="basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5">
+                      <MovieCard movie={{ title: recommendation.title, movie_id: 0 }} disable_like={true} />
+                    </CarouselItem>
                   ))}
-                </div>
-              </>}
-            <h2 className="text-2xl font-medium my-4">Movies:</h2>
-            <div className="py-2 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 w-full items-center justify-center">
-              {movies.map((movie) => (
-                <MovieCard key={movie.movie_id} movie={movie} />
-              ))}
-            </div>
-            <div className="py-2 flex flex-row w-full justify-center mb-8">
-              <Button onClick={loadMore} disabled={loading}>
-                {loading && <LoaderCircle className="animate-spin" />}
-                {!loading && <RefreshCw />}
-                Load More
-              </Button>
-            </div>
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+              </Carousel>
+            </>}
+          <h2 className="text-2xl font-medium my-4">Movies:</h2>
+          <div className="py-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 w-full items-center justify-center">
+            {movies.map((movie) => (
+              <MovieCard key={movie.movie_id} movie={movie} />
+            ))}
+          </div>
+          <div className="py-2 flex flex-row w-full justify-center mb-8">
+            <Button onClick={loadMore} disabled={loading}>
+              {loading && <LoaderCircle className="animate-spin" />}
+              {!loading && <RefreshCw />}
+              Load More
+            </Button>
           </div>
         </div>
+      </div>
     </main>
   );
 }
